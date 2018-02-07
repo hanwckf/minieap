@@ -34,3 +34,6 @@ $($(LOCAL_MODULE)_PRIV_DEPS) : ${@:.d=.c}
 $(LOCAL_MODULE)_clean:
 # Use patsubst to get correct filenames!
 	rm -f $($(patsubst %_clean,%,$@)_PRIV_OBJS) $($(patsubst %_clean,%,$@)_PRIV_DEPS)
+
+.PHONY: clean
+clean: $(LOCAL_MODULE)_clean
