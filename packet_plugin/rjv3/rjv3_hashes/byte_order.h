@@ -90,6 +90,7 @@ void rhash_swap_copy_u64_to_str(void* to, const void* from, size_t length);
 void rhash_u32_mem_swap(unsigned *p, int length_in_u32);
 
 /* define bswap_32 */
+#if !defined(bswap_32)
 #if defined(__GNUC__) && defined(CPU_IA32) && !defined(__i386__)
 /* for intel x86 CPU */
 static inline uint32_t bswap_32(uint32_t x) {
@@ -111,7 +112,9 @@ static inline uint32_t bswap_32(uint32_t x) {
 #define bswap_32(x) ((((x) & 0xff000000) >> 24) | (((x) & 0x00ff0000) >>  8) | \
 	(((x) & 0x0000ff00) <<  8) | (((x) & 0x000000ff) << 24))
 #endif /* bswap_32 */
+#endif
 
+#if !defined(bswap_64)
 #if defined(__GNUC__) && (__GNUC__ >= 4) && (__GNUC__ > 4 || __GNUC_MINOR__ >= 3)
 # define bswap_64(x) __builtin_bswap64(x)
 #elif (_MSC_VER > 1300) && (defined(CPU_IA32) || defined(CPU_X64)) /* MS VC */
@@ -129,6 +132,7 @@ static inline uint64_t bswap_64(uint64_t x) {
 }
 #else
 #error "bswap_64 unsupported"
+#endif
 #endif
 
 #ifdef CPU_BIG_ENDIAN
